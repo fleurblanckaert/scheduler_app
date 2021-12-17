@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:scheduler_app/app/routes/app_pages.dart';
+import 'package:scheduler_app/app/services/theme.services.dart';
 import 'package:scheduler_app/app/theme/app_theme.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
     initialRoute: Routes.INITIAL,
-    themeMode: ThemeMode.light,
+    themeMode: ThemeService().theme,
     theme:  appLightThemeData,
     darkTheme: appDarkThemeData,
     defaultTransition: Transition.fade,
