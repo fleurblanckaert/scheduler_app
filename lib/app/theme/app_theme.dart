@@ -51,3 +51,21 @@ TextStyle headingStyle () {
     ),
   );
 }
+
+TextStyle titleStyle () {
+  return GoogleFonts.lato(
+    textStyle: const TextStyle(
+      fontSize: 15, 
+      fontWeight: FontWeight.w400,
+    ),
+  );
+}
+
+TextStyle subTitleStyle () {
+  return GoogleFonts.lato(
+    textStyle: const TextStyle(
+      fontSize: 13, 
+      fontWeight: FontWeight.w400,
+    ),
+  );
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:scheduler_app/app/routes/app_pages.dart';
 import 'package:scheduler_app/app/services/notification.services.dart';
 import 'package:scheduler_app/app/services/theme.services.dart';
 import 'package:intl/intl.dart';
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          AppButton(label: "+ Add Event", onTap: () => null),
+          AppButton(label: "+ Add Task", onTap: () => Get.toNamed(Routes.ADD_TASK)),
         ],
       ),
     );
