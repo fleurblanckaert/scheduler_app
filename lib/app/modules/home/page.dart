@@ -104,6 +104,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// Creates the Home Page Date Bar
   _createDateBar() {
     return Container(
       margin: const EdgeInsets.only(top: 15, left: 10),
