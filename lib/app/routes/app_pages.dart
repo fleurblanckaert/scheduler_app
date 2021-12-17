@@ -5,7 +5,16 @@ part './app_routes.dart';
 class AppPages {
   static final pages = [
     GetPage(
-      name: Routes.INITIAL, page: () => HomePage(),
-    )
+      name: Routes.INITIAL, 
+      page: () => HomePage(),
+    ),
+    // GetPage(
+    //   name: Routes.HOME, 
+    //   page: null
+    // ),
+    // GetPage(
+    //   name: Routes.ADD_TASK 
+    //   page: null
+    // ),
   ];
 }
