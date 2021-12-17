@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:scheduler_app/app/services/notification.services.dart';
 import 'package:scheduler_app/app/services/theme.services.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +11,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  /// The Notification Helper for the App
+  late NotifyHelper notifyHelper;
+
+  @override
+  void initState() {
+    super.initState();
+
+    notifyHelper = NotifyHelper();
+    notifyHelper.initializeNotification();
+    notifyHelper.requestIOSPermissions();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +38,19 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   } 
-}
 
-_createAppBar() {
+  /// Creates the Home Page App Bar
+  _createAppBar() {
   return AppBar(
     leading: GestureDetector(
       onTap: () {
         ThemeService().switchTheme();
+        notifyHelper.displayNotification(
+          title: "Theme Changed", 
+          body: !Get.isDarkMode ? "Activated Dark Theme" : "Activated Light Theme"
+        );
+
+        notifyHelper.scheduledNotification();
       },
       child: const Icon(
           Icons.nightlight_round, 
@@ -44,4 +65,5 @@ _createAppBar() {
       SizedBox(width: 20,),
     ],
   );
+}
 }
