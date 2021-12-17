@@ -41,6 +41,7 @@ class AppInputField extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextFormField(
+                    readOnly: widget == null ? false : true,
                     autofocus: false,
                     cursorColor: primary,
                     controller: controller,
@@ -57,6 +58,7 @@ class AppInputField extends StatelessWidget {
                     ),
                   ),
                 ),
+                widget == null ? Container() : Container(child: widget),
               ],
             ),
           ),
