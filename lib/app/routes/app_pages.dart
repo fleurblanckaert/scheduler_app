@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:scheduler_app/app/modules/home/page.dart';
+import 'package:scheduler_app/app/modules/welcome/page.dart';
 part './app_routes.dart';
 
 class AppPages {
