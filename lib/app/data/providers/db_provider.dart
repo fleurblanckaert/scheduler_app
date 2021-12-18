@@ -36,4 +36,14 @@ class DBProvider {
 
     return await _database!.insert(_tableName, task.toJson());
   }
+
+  static Future<List<Map<String, dynamic>>> query() async {
+    print("Query function was called...");
+
+    return await _database!.query(_tableName);
+  }
+
+  static Future<int> delete(Task task) async {
+    return await _database!.delete(_tableName, where: 'id=?', whereArgs: [task.id]);
+  }
 }

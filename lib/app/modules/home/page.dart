@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:scheduler_app/app/modules/home/controller.dart';
 import 'package:scheduler_app/app/routes/app_pages.dart';
 import 'package:scheduler_app/app/services/notification.services.dart';
 import 'package:scheduler_app/app/services/theme.services.dart';
@@ -21,6 +22,8 @@ class _HomePageState extends State<HomePage> {
   /// The Notification Helper for the App
   late NotifyHelper notifyHelper;
 
+  final HomeController _homeController = Get.put(HomeController());
+
   DateTime _selectedDate = DateTime.now();
 
   @override
@@ -30,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     notifyHelper = NotifyHelper();
     notifyHelper.initializeNotification();
     notifyHelper.requestIOSPermissions();
+    _homeController.getTasks();
   }
 
   @override
@@ -40,6 +44,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           _createTaskBar(),
           _createDateBar(),
+          const SizedBox(height: 15,),
+          _createTaskList(),
         ],
       ),
 
@@ -98,7 +104,11 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          AppButton(label: "+ Add Task", onTap: () => Get.toNamed(Routes.ADD_TASK)),
+          AppButton(label: "+ Add Task", onTap: () async {
+              await Get.toNamed(Routes.ADD_TASK);
+              _homeController.getTasks();
+            }
+          ),
         ],
       ),
     );
@@ -140,6 +150,34 @@ class _HomePageState extends State<HomePage> {
           _selectedDate = date;
         },
       )
+    );
+  }
+
+  _createTaskList() {
+    print('Creating task list...');
+    return Expanded(
+      child: Obx(() {
+        return ListView.builder(
+          itemCount: _homeController.taskList.length,
+          itemBuilder: (_, index){
+            // print("Stuff: ${_homeController.taskList.length}");
+            return GestureDetector(
+              onTap: () {
+                
+              },
+              child: Container(
+                width: 100, 
+                height: 40, 
+                color: Colors.green, 
+                margin: const EdgeInsets.only(bottom: 10),
+                child: Text(
+                  _homeController.taskList[index].title.toString(),
+                ),
+              ),
+            );
+          }
+        );
+      }),
     );
   }
 }
