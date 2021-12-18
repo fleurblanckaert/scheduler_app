@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:scheduler_app/app/data/models/task.dart';
+import 'package:scheduler_app/app/modules/add_task/controller.dart';
 import 'package:scheduler_app/app/theme/app_theme.dart';
 import 'package:scheduler_app/app/widgets/button.dart';
 import 'package:scheduler_app/app/widgets/input_field.dart';
@@ -13,6 +15,7 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
+  final TaskController _taskController = Get.put(TaskController());
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
@@ -211,11 +214,28 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
   }
 
+  _addTaskToDb() async {
+    int value = await _taskController.addTask(
+      task: Task(
+        note: _noteController.text,
+        title: _titleController.text,
+        date: DateFormat.yMd().format(_selectedDate),
+        startTime: _startTime,
+        endTime: _endTime,
+        color: _selectedColor,
+        isCompleted: 0
+      )
+    );
+    print("Task with ID $value was inserted into the database");
+    
+  }
+
   _validateForm() {
 
     if (_titleController.text.isNotEmpty && _noteController.text.isNotEmpty) {
 
       // add data to the database
+      _addTaskToDb();
       Get.back();
     } else if (_titleController.text.isEmpty || _noteController.text.isEmpty) {
       Get.snackbar(

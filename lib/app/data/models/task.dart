@@ -11,7 +11,7 @@ class Task {
   int? color;
 
   Task({
-    required this.id,
+    this.id,
     required this.title,
     required this.note,
     required this.isCompleted,
