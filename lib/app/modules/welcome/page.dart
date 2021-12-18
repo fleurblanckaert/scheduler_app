@@ -24,13 +24,36 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height:80),
-            // SizedBox(height: 30),
+            const SizedBox(height:40),
             Container(
                 child: Center(
-                  child: AppButton(
-                    label: "Get Started",
-                    onTap: () => Get.toNamed(Routes.HOME)
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // RichText(
+                      //   text: const TextSpan(
+                      //     text: 'Hello',
+                      //     style: TextStyle(color: Colors.black),
+                      //     children: <TextSpan>[
+                      //       TextSpan(text: 'Yo')
+                      //     ]
+                      //   ),
+                      // ),
+                      Container(
+                        margin: const EdgeInsets.only(left:15, right: 15),
+                        child: Text(
+                          "This app provides you with all the tools you need to keep yourself organized."
+                          " Schedule your events and view them all in a list by day or monthly calendar view.",
+                          style: subHeadingStyle(),
+                        ),
+                      ),
+                      const SizedBox(height: 40,),
+                      AppButton(
+                        label: "Get Started",
+                        onTap: () => Get.toNamed(Routes.HOME)
+                      ),
+                    ],
                   ),
                 )
             ),
