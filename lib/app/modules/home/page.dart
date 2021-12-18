@@ -22,9 +22,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  /// The Notification Helper for the App
-  late NotifyHelper notifyHelper;
-
   final HomeController _homeController = Get.put(HomeController());
 
   DateTime _selectedDate = DateTime.now();
@@ -33,9 +30,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    notifyHelper = NotifyHelper();
-    notifyHelper.initializeNotification();
-    notifyHelper.requestIOSPermissions();
     _homeController.getTasks();
   }
 
@@ -61,26 +55,23 @@ class _HomePageState extends State<HomePage> {
     return AppBar(
       leading: GestureDetector(
         onTap: () {
-          ThemeService().switchTheme();
-          // notifyHelper.displayNotification(
-          //   title: "Theme Changed", 
-          //   body: !Get.isDarkMode ? "Activated Dark Theme" : "Activated Light Theme"
-          // );
-
-          // notifyHelper.scheduledNotification();
+          Get.toNamed(Routes.SETTINGS);
         },
-        child: Icon(
-            Get.isDarkMode ? Icons.wb_sunny_outlined : Icons.nightlight_round, 
+        child: const Icon(
+            Icons.settings, 
             size: 20,
             color:Colors.white,
           ),
       ),
-      actions: const [
-        Icon(
-          Icons.calendar_today,
-          size: 20,
+      actions: [
+        GestureDetector(
+          onTap: () => Get.toNamed(Routes.CALENDAR),
+          child: const Icon(
+            Icons.calendar_today,
+            size: 20,
+          ),
         ),
-        SizedBox(width: 20,),
+        const SizedBox(width: 20,),
       ],
     );
   }
@@ -203,7 +194,7 @@ class _HomePageState extends State<HomePage> {
       Container(
         padding: const EdgeInsets.only(top: 4),
         height: task.isCompleted == 1 ? 
-          MediaQuery.of(context).size.height*0.40:
+          MediaQuery.of(context).size.height*0.32:
           MediaQuery.of(context).size.height*0.48,
         color: Get.isDarkMode ? Colors.grey[800] : Colors.white,
         child: Column(
@@ -225,16 +216,6 @@ class _HomePageState extends State<HomePage> {
                 Get.back();
               },
               color: primary,
-              context: context
-            ),
-            const SizedBox(height: 20,),
-            _bottomSheetButton(
-              label: "View Task",
-              onTap: () {
-                Get.toNamed(Routes.VIEW_TASK);
-              },
-              isClose: false,
-              color: secondary,
               context: context
             ),
             const SizedBox(height: 20,),

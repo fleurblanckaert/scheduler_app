@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:scheduler_app/app/modules/add_task/page.dart';
+import 'package:scheduler_app/app/modules/calendar/page.dart';
 import 'package:scheduler_app/app/modules/home/page.dart';
+import 'package:scheduler_app/app/modules/settings/page.dart';
 import 'package:scheduler_app/app/modules/welcome/page.dart';
 part './app_routes.dart';
 
@@ -19,8 +21,12 @@ class AppPages {
       page: () => const AddTaskPage(),
     ),
     GetPage(
-      name: Routes.VIEW_TASK,
-      page: () => const AddTaskPage(),
+      name: Routes.SETTINGS,
+      page: () => const SettingsPage(),
+    ),
+    GetPage(
+      name: Routes.CALENDAR,
+      page: () => const CalendarView(),
     ),
   ];
 }

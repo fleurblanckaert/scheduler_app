@@ -43,6 +43,7 @@ dependencies:
   date_picker_timeline: ^1.2.3
   sqflite: ^2.0.1
   flutter_staggered_animations: ^1.0.0
+  syncfusion_flutter_calendar: ^19.4.38
 
 dev_dependencies:
   flutter_test:
