@@ -26,7 +26,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.CALENDAR,
-      page: () => const CalendarView(),
+      page: () => const CalendarPage(),
     ),
   ];
 }

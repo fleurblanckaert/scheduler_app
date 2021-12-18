@@ -5,7 +5,6 @@ import 'package:scheduler_app/app/modules/settings/controller.dart';
 import 'package:scheduler_app/app/services/notification.services.dart';
 import 'package:scheduler_app/app/services/theme.services.dart';
 import 'package:scheduler_app/app/theme/app_theme.dart';
-import 'package:scheduler_app/app/widgets/button.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({ Key? key }) : super(key: key);
@@ -49,7 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return AppBar(
       title: Text(
         "Settings", 
-        style: titleStyle(),
+        style: appBarTitleStyle(),
       ),
       leading: GestureDetector(
         onTap: () {

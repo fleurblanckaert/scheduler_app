@@ -69,3 +69,12 @@ TextStyle subTitleStyle () {
     ),
   );
 }
+
+TextStyle appBarTitleStyle () {
+  return GoogleFonts.lato(
+    textStyle: const TextStyle(
+      fontSize: 16, 
+      fontWeight: FontWeight.w400,
+    ),
+  );
+}
