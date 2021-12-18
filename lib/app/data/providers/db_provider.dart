@@ -54,4 +54,10 @@ class DBProvider {
       WHERE id = ?
     ''', [1, id]);
   }
+
+  static Future<int> deleteAllData() async {
+    return await _database!.rawDelete('''
+      DELETE FROM tasks
+    ''');
+  }
 }

@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
       leading: GestureDetector(
         onTap: () {
           Get.toNamed(Routes.SETTINGS);
+          _homeController.getTasks();
         },
         child: const Icon(
             Icons.settings, 
