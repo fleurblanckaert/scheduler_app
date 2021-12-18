@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:scheduler_app/app/data/models/task.dart';
 import 'package:scheduler_app/app/modules/home/controller.dart';
 import 'package:scheduler_app/app/routes/app_pages.dart';
 import 'package:scheduler_app/app/services/notification.services.dart';
@@ -9,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:scheduler_app/app/theme/app_theme.dart';
 import 'package:scheduler_app/app/widgets/button.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:scheduler_app/app/widgets/task_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ Key? key }) : super(key: key);
@@ -147,7 +150,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         onDateChange: (date) {
-          _selectedDate = date;
+          setState(() {
+            _selectedDate = date;
+          });
         },
       )
     );
@@ -160,24 +165,131 @@ class _HomePageState extends State<HomePage> {
         return ListView.builder(
           itemCount: _homeController.taskList.length,
           itemBuilder: (_, index){
-            // print("Stuff: ${_homeController.taskList.length}");
-            return GestureDetector(
-              onTap: () {
-                
-              },
-              child: Container(
-                width: 100, 
-                height: 40, 
-                color: Colors.green, 
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  _homeController.taskList[index].title.toString(),
+
+            Task task = _homeController.taskList[index];
+
+            // Check if the date matches the day selected on the date picker
+            if (task.date==DateFormat.yMd().format(_selectedDate)) {
+              return AnimationConfiguration.staggeredList(
+                position: index, 
+                child: SlideAnimation(
+                  child: FadeInAnimation(
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            _showBottomSheet(context, task);
+                          },
+                          child: TaskTile(task),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            );
+              );
+            } else {
+              return Container();
+            }
+          
           }
         );
       }),
+    );
+  }
+
+  /// Technically a Page, brings up Bottom Sheet for Task Options
+  _showBottomSheet(BuildContext context, Task task) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.only(top: 4),
+        height: task.isCompleted == 1 ? 
+          MediaQuery.of(context).size.height*0.40:
+          MediaQuery.of(context).size.height*0.48,
+        color: Get.isDarkMode ? Colors.grey[800] : Colors.white,
+        child: Column(
+          children: [
+            Container(
+              height: 6,
+              width: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Get.isDarkMode ? Colors.grey[600] : Colors.grey[300] 
+              ),
+            ),
+            // const Spacer(),
+            task.isCompleted == 1 ? Container() 
+            : _bottomSheetButton(
+              label: "Task Completed",
+              onTap: () {
+                _homeController.markTaskCompleted(task.id!);
+                Get.back();
+              },
+              color: primary,
+              context: context
+            ),
+            const SizedBox(height: 20,),
+            _bottomSheetButton(
+              label: "View Task",
+              onTap: () {
+                Get.toNamed(Routes.VIEW_TASK);
+              },
+              isClose: false,
+              color: secondary,
+              context: context
+            ),
+            const SizedBox(height: 20,),
+            _bottomSheetButton(
+              label: "Delete",
+              onTap: () {
+                _homeController.deleteTask(task);
+                Get.back();
+              },
+              color: Colors.red[300]!,
+              context: context
+            ),
+            const SizedBox(height: 20,),
+            _bottomSheetButton(
+              label: "Close",
+              onTap: () {
+                Get.back();
+              },
+              isClose: true,
+              context: context
+            ),
+          ],
+        ),
+      )
+    );
+  }
+
+  _bottomSheetButton({
+    required String label,
+    required Function()? onTap,
+    Color? color,
+    bool isClose = false,
+    required BuildContext context
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        height: 40,
+        width: MediaQuery.of(context).size.width*0.9,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color: isClose ? Get.isDarkMode ? Colors.grey[600]! : Colors.black : color!,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          color: isClose ? Get.isDarkMode ? Colors.grey[600] : Colors.white : color,
+        ),
+        child: Center(child: 
+          Text(
+            label,
+            style: isClose ? titleStyle() : titleStyle().copyWith(color: Colors.white),
+          ),
+        ),
+      ),
     );
   }
 }

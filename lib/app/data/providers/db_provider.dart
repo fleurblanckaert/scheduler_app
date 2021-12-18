@@ -46,4 +46,12 @@ class DBProvider {
   static Future<int> delete(Task task) async {
     return await _database!.delete(_tableName, where: 'id=?', whereArgs: [task.id]);
   }
+
+  static Future<int> updateStatusCompleted(int id) async {
+    return await _database!.rawUpdate('''
+      UPDATE tasks
+      SET isCompleted = ?
+      WHERE id = ?
+    ''', [1, id]);
+  }
 }

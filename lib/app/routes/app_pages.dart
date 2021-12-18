@@ -18,5 +18,9 @@ class AppPages {
       name: Routes.ADD_TASK,
       page: () => const AddTaskPage(),
     ),
+    GetPage(
+      name: Routes.VIEW_TASK,
+      page: () => const AddTaskPage(),
+    ),
   ];
 }

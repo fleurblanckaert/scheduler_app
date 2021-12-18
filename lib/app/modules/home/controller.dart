@@ -17,6 +17,14 @@ class HomeController extends GetxController {
   }
 
   Future<int> deleteTask(Task task) async {
-    return await DBProvider.delete(task);
+    int value = await DBProvider.delete(task);
+    getTasks();
+    return value;
+  }
+
+  Future<int> markTaskCompleted(int id) async {
+    int value = await DBProvider.updateStatusCompleted(id);
+    getTasks();
+    return value;
   }
 }
